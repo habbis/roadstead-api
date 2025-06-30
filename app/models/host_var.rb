@@ -1,0 +1,2 @@
+class HostVar < ApplicationRecord
+end

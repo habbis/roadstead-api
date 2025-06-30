@@ -1,0 +1,2 @@
+class Hostgroup < ApplicationRecord
+end

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  ipv4: 
+  ipv6: 
+  id_hosts: 1
+  id_vlan: 1
+  id_reserved_ip: 1
+
+two:
+  name: MyString
+  ipv4: 
+  ipv6: 
+  id_hosts: 1
+  id_vlan: 1
+  id_reserved_ip: 1

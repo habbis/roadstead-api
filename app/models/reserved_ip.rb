@@ -1,0 +1,2 @@
+class ReservedIp < ApplicationRecord
+end

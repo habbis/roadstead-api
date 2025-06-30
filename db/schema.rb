@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_24_092218) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_30_234511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,77 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_092218) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "group_vars", force: :cascade do |t|
+    t.integer "id_hosts"
+    t.string "keyname"
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_group_vars_on_slug", unique: true
+  end
+
+  create_table "host2hostgroups", force: :cascade do |t|
+    t.integer "id_hosts"
+    t.integer "id_hostgroup"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "host_vars", force: :cascade do |t|
+    t.integer "id_hosts"
+    t.string "keyname"
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_host_vars_on_slug", unique: true
+  end
+
+  create_table "hostgroups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["name"], name: "index_hostgroups_on_name", unique: true
+    t.index ["slug"], name: "index_hostgroups_on_slug", unique: true
+  end
+
+  create_table "hosts", force: :cascade do |t|
+    t.string "FQDN"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["FQDN"], name: "index_hosts_on_FQDN", unique: true
+    t.index ["slug"], name: "index_hosts_on_slug", unique: true
+  end
+
+  create_table "interfaces", force: :cascade do |t|
+    t.string "name"
+    t.inet "ipv4"
+    t.inet "ipv6"
+    t.integer "id_hosts"
+    t.integer "id_vlan"
+    t.integer "id_reserved_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ipv4"], name: "index_interfaces_on_ipv4", unique: true
+    t.index ["ipv6"], name: "index_interfaces_on_ipv6", unique: true
+  end
+
+  create_table "reserved_ips", force: :cascade do |t|
+    t.string "name"
+    t.integer "id_hosts"
+    t.inet "ipv4"
+    t.inet "ipv6"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["ipv4"], name: "index_reserved_ips_on_ipv4", unique: true
+    t.index ["ipv6"], name: "index_reserved_ips_on_ipv6", unique: true
+    t.index ["slug"], name: "index_reserved_ips_on_slug", unique: true
   end
 
   create_table "vlans", force: :cascade do |t|
