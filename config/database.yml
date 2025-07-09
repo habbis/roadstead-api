@@ -22,13 +22,12 @@ default: &default
 
 development:
   <<: *default
-  database: roadstead_api
-
+  url: <%= ENV["ROADSTEAD_API_DEV_DATABASE_URL"] %>
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  username: infra
+  #username: infra
 
   # The password associated with the PostgreSQL role (username).
   #password: infra
@@ -37,11 +36,10 @@ development:
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
   #host: localhost
-  host: hf-t-psql1.dc1.ncop.no
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
-  port: 5432
+  #port: 5432
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
@@ -82,11 +80,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    #database: roadstead_api_production
-    database: roadstead_api
-    #username: roadstead_api
-    username: infra
-    password: <%= ENV["ROADSTEAD_API_DATABASE_PASSWORD"] %>
+    url: <%= ENV["ROADSTEAD_API_PROD_DATABASE_URL"] %>
   cache:
     <<: *primary_production
     database: roadstead_api_production_cache
