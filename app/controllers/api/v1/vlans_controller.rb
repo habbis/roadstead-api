@@ -9,12 +9,12 @@ module Api
         render json: @vlans
       end
 
-      # GET /api/v1/vlans/:id
+      # GET /api/v1/vlans/:name
       def show
         render json: @vlan
       end
 
-      # Vlan /api/v1/vlans
+      # POST /api/v1/vlans
       def create
         @vlan = Vlan.new(vlan_params)
         if @vlan.save
