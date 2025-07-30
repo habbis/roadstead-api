@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_30_234511) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_30_115316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -57,6 +57,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_30_234511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.bigint "group_var_id", null: false
+    t.index ["group_var_id"], name: "index_hostgroups_on_group_var_id"
     t.index ["name"], name: "index_hostgroups_on_name", unique: true
     t.index ["slug"], name: "index_hostgroups_on_slug", unique: true
   end
@@ -66,7 +68,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_30_234511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.bigint "hostgroups_id", null: false
+    t.bigint "host_vars_id", null: false
+    t.bigint "interface_id", null: false
     t.index ["FQDN"], name: "index_hosts_on_FQDN", unique: true
+    t.index ["host_vars_id"], name: "index_hosts_on_host_vars_id"
+    t.index ["hostgroups_id"], name: "index_hosts_on_hostgroups_id"
+    t.index ["interface_id"], name: "index_hosts_on_interface_id"
     t.index ["slug"], name: "index_hosts_on_slug", unique: true
   end
 
@@ -107,4 +115,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_30_234511) do
     t.index ["prefix"], name: "index_vlans_on_prefix", unique: true
     t.index ["slug"], name: "index_vlans_on_slug", unique: true
   end
+
+  add_foreign_key "hostgroups", "group_vars"
+  add_foreign_key "hosts", "host_vars", column: "host_vars_id"
+  add_foreign_key "hosts", "hostgroups", column: "hostgroups_id"
+  add_foreign_key "hosts", "interfaces"
 end
