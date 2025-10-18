@@ -1,7 +1,7 @@
 module Api
   module V1
     class VlansController < ApplicationController
-      before_action :set_vlan, only: [:show, :update, :destroy]
+      before_action :set_vlan, only: [ :show, :update, :destroy ]
 
       # GET /api/v1/vlans
       def index

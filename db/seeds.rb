@@ -8,5 +8,5 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-#Vlan.create(name: 'int_5_test_dc1', vlan_id: 5, prefix: '10.60.5.0/24')
-#Vlan.create(name: 'ext_6_web_dc1', vlan_id: 6, prefix: '10.60.6.0/28')
+# Vlan.create(name: 'int_5_test_dc1', vlan_id: 5, prefix: '10.60.5.0/24')
+# Vlan.create(name: 'ext_6_web_dc1', vlan_id: 6, prefix: '10.60.6.0/28')

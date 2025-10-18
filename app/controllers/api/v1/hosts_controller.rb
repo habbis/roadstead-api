@@ -1,5 +1,5 @@
 class Api::V1::HostsController < ApplicationController
-  before_action :set_host, only: [:show, :update, :destroy]
+  before_action :set_host, only: [ :show, :update, :destroy ]
 
   # GET /api/v1/hosts
   def index
