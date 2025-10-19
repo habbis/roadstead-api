@@ -1,0 +1,2 @@
+class Ipam < ApplicationRecord
+end

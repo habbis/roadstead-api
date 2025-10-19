@@ -1,2 +1,0 @@
-class ReservedIp < ApplicationRecord
-end
