@@ -10,3 +10,9 @@
 
 # Vlan.create(name: 'int_5_test_dc1', vlan_id: 5, prefix: '10.60.5.0/24')
 # Vlan.create(name: 'ext_6_web_dc1', vlan_id: 6, prefix: '10.60.6.0/28')
+
+puts Rails.env.downcase
+
+# load the correct seeds file for our Rails environment
+load(Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb"))
+

@@ -22,6 +22,7 @@ development:
 test:
   <<: *default
   database: roadstead_api_test
+  url: <%= ENV["ROADSTEAD_API_DEV_DATABASE_URL"] %>
 
 production:
   primary: &primary_production
