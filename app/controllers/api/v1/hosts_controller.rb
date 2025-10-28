@@ -39,17 +39,16 @@ class Api::V1::HostsController < ApplicationController
     # @host.host_vars.new(params[:keyname])
     # @host.host_vars.new(params[:keyname])
     # if @host.save && @vlan_name.save
-    #if @host.save  # && @vlan_updste.save
-    #else
+    # if @host.save  # && @vlan_updste.save
+    # else
     #  render json: @host.errors, status: :unprocessable_entity
     #  render json: @vlan_name.errors, status: :unprocessable_entity
-    #end
+    # end
     # @host.host_vars.new(params[:])
     # vlan_name = params[:name]
     # hostid = Host.select(:id).where("FQDN = '#{host}'")
     # vlanid = Vlan.select(:id).where("name = '#{vlan_name}'")
     # @vlan = Vlan.find(params[:name])
-
   end
 
   private
