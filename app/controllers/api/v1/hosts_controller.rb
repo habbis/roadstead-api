@@ -16,9 +16,17 @@ class Api::V1::HostsController < ApplicationController
     @host = Host.new(host_params)
     @host_id = Host.select(:id).where("name = ?", @host.name)
     @host.interfaces.new
+    @host.save
     # puts @host.inspect
-    puts @host_id.to_yaml
-    # @interface_name = Interface.select("id").where("host_id = ?", @host_id)
+    # puts @host_id.to_yaml
+    # puts @host.interfaces.ids.inspect
+    @interface_id = @host.interfaces.ids
+    # @interface_id = Interface.select(:id).where("host_id = ?", @host_id)
+    # @vlan_updste = Vlan.update(interface_id: @interface_id).where("name = ?", vlan_params[:name])
+    vlan = Vlan.find(vlan_params)
+    # @vlan_update = Vlan.update(interface_id: @interface_id)
+    @vlan_update = vlan.update(interface_id: @interface_id)
+    render json: @vlan_update
     # put @interface_name.to_yaml
     # @vlan_name = Vlan.select(:name).where("name = ?", params[:vlan.name])
     # @vlan_name.interfaces.update.where("host_id = ?", @host_id)
@@ -31,11 +39,11 @@ class Api::V1::HostsController < ApplicationController
     # @host.host_vars.new(params[:keyname])
     # @host.host_vars.new(params[:keyname])
     # if @host.save && @vlan_name.save
-    if @host.save
-    else
-      render json: @host.errors, status: :unprocessable_entity
-      render json: @vlan_name.errors, status: :unprocessable_entity
-    end
+    #if @host.save  # && @vlan_updste.save
+    #else
+    #  render json: @host.errors, status: :unprocessable_entity
+    #  render json: @vlan_name.errors, status: :unprocessable_entity
+    #end
     # @host.host_vars.new(params[:])
     # vlan_name = params[:name]
     # hostid = Host.select(:id).where("FQDN = '#{host}'")
