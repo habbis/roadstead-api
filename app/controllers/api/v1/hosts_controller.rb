@@ -14,7 +14,6 @@ class Api::V1::HostsController < ApplicationController
   end
   def create
     @host = Host.new(host_params)
-    puts @host.inspect
     if @host.save
     else
       render json: @host.errors, status: :unprocessable_entity
@@ -35,7 +34,6 @@ class Api::V1::HostsController < ApplicationController
       render json: @cpu.errors, status: :unprocessable_entity
       render json: @disk.errors, status: :unprocessable_entity
     end
-
   end
 
   private

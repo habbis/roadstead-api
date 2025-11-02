@@ -28,9 +28,9 @@ module Api
       def update
          if @vlan.update(vlan_params)
           render json: @vlan
-        else
+         else
           render json: @vlan.errors, status: :unprocessable_entity
-        end
+         end
       end
 
       # DELETE /api/v1/vlan/:name
