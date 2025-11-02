@@ -14,52 +14,54 @@ class Api::V1::HostsController < ApplicationController
   end
   def create
     @host = Host.new(host_params)
-    @host_id = Host.select(:id).where("name = ?", @host.name)
-    @host.interfaces.new
-    @host.save
-    # puts @host.inspect
-    # puts @host_id.to_yaml
-    # puts @host.interfaces.ids.inspect
-    @interface_id = @host.interfaces.ids
-    # @interface_id = Interface.select(:id).where("host_id = ?", @host_id)
-    # @vlan_updste = Vlan.update(interface_id: @interface_id).where("name = ?", vlan_params[:name])
-    vlan = Vlan.find(vlan_params)
-    # @vlan_update = Vlan.update(interface_id: @interface_id)
-    @vlan_update = vlan.update(interface_id: @interface_id)
-    render json: @vlan_update
-    # put @interface_name.to_yaml
-    # @vlan_name = Vlan.select(:name).where("name = ?", params[:vlan.name])
-    # @vlan_name.interfaces.update.where("host_id = ?", @host_id)
-    # @vlan_id = Vlan.select(:id).where(name = params[:vlan])
-    #
-    # @interface_id = Hosts.select(:interface_id).where(name = @host)
-    # @vlan = Vlan.update(interface_id: @interface_id).where(name = vlan_params)
-    #
-    # @host.host_vars.new(params[:keyname])
-    # @host.host_vars.new(params[:keyname])
-    # @host.host_vars.new(params[:keyname])
-    # if @host.save && @vlan_name.save
-    #if @host.save  # && @vlan_updste.save
-    #else
-    #  render json: @host.errors, status: :unprocessable_entity
-    #  render json: @vlan_name.errors, status: :unprocessable_entity
-    #end
-    # @host.host_vars.new(params[:])
-    # vlan_name = params[:name]
-    # hostid = Host.select(:id).where("FQDN = '#{host}'")
-    # vlanid = Vlan.select(:id).where("name = '#{vlan_name}'")
-    # @vlan = Vlan.find(params[:name])
+    puts @host.inspect
+    if @host.save
+    else
+      render json: @host.errors, status: :unprocessable_entity
+    end
+
+    id_vlan = Vlan.find_by(name: vlan_params)
+    host = Host.find_by(name: @host.name)
+    @interface = Interface.create(name: "eth0", host_id: host.id, vlan_id: id_vlan.id)
+    @state = HostVar.create(host_id: host.id, keyname: "state", value: state_params)
+    @memory = HostVar.create(host_id: host.id, keyname: "memory_gb", value: memory_params)
+    @cpu = HostVar.create(host_id: host.id, keyname: "cpu", value: cpu_params)
+    @disk = HostVar.create(host_id: host.id, keyname: "disk_db", value: disk_params)
+    if @interface.save && @state.save && @memory.save && @cpu.save && @disk.save && @state.save
+    else
+      render json: @interface.errors, status: :unprocessable_entity
+      render json: @state.errors, status: :unprocessable_entity
+      render json: @memory.errors, status: :unprocessable_entity
+      render json: @cpu.errors, status: :unprocessable_entity
+      render json: @disk.errors, status: :unprocessable_entity
+    end
 
   end
 
   private
 
-  #  def set_host
-  #  Host.friendly.find(params[:id])
-  # end
+  def set_host
+    Host.friendly.find(params[:id])
+  end
 
   def vlan_params
-    params.require(:vlan).permit(:name)
+    params.require(:vlan)
+  end
+
+  def state_params
+    params.require(:state)
+  end
+
+  def memory_params
+    params.require(:memory_gb)
+  end
+
+  def cpu_params
+    params.require(:cpu)
+  end
+
+  def disk_params
+    params.require(:disk_gb)
   end
 
   def host_params

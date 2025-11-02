@@ -1,3 +1,3 @@
 class GroupVar < ApplicationRecord
-  belongs_to :hostgroup
+  # belongs_to :hostgroup
 end

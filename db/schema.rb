@@ -26,7 +26,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_27_193609) do
   end
 
   create_table "group_vars", force: :cascade do |t|
-    t.integer "hostgroup_id"
+    t.bigint "hostgroup_id"
     t.string "keyname"
     t.text "value"
     t.datetime "created_at", null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_27_193609) do
   end
 
   create_table "host2hostgroups", force: :cascade do |t|
-    t.integer "host_id"
-    t.integer "id_hostgroup"
+    t.bigint "host_id"
+    t.bigint "id_hostgroup"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,35 +68,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_27_193609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.bigint "hostgroups_id"
-    t.bigint "host_vars_id"
-    t.bigint "interface_id"
-    t.index ["host_vars_id"], name: "index_hosts_on_host_vars_id"
-    t.index ["hostgroups_id"], name: "index_hosts_on_hostgroups_id"
-    t.index ["interface_id"], name: "index_hosts_on_interface_id"
     t.index ["name"], name: "index_hosts_on_name", unique: true
     t.index ["slug"], name: "index_hosts_on_slug", unique: true
   end
 
   create_table "interfaces", force: :cascade do |t|
     t.string "name"
-    t.integer "host_id"
-    t.integer "vlan_id"
-    t.integer "ipam_id"
+    t.bigint "host_id"
+    t.bigint "vlan_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ipams", force: :cascade do |t|
     t.string "name"
-    t.integer "host_id"
     t.inet "ipv4"
     t.inet "ipv6"
+    t.bigint "interface_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.bigint "interface_id"
-    t.index ["interface_id"], name: "index_ipams_on_interface_id"
     t.index ["ipv4"], name: "index_reserved_ips_on_ipv4", unique: true
     t.index ["ipv6"], name: "index_reserved_ips_on_ipv6", unique: true
     t.index ["slug"], name: "index_reserved_ips_on_slug", unique: true
@@ -110,17 +101,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_27_193609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.bigint "interface_id"
-    t.index ["interface_id"], name: "index_vlans_on_interface_id"
     t.index ["name"], name: "index_vlans_on_name", unique: true
     t.index ["prefix"], name: "index_vlans_on_prefix", unique: true
     t.index ["slug"], name: "index_vlans_on_slug", unique: true
   end
 
-  add_foreign_key "hostgroups", "group_vars"
-  add_foreign_key "hosts", "host_vars", column: "host_vars_id"
-  add_foreign_key "hosts", "hostgroups", column: "hostgroups_id"
-  add_foreign_key "hosts", "interfaces"
-  add_foreign_key "ipams", "interfaces"
-  add_foreign_key "vlans", "interfaces"
 end
