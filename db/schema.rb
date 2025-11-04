@@ -105,5 +105,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_224910) do
     t.index ["prefix"], name: "index_vlans_on_prefix", unique: true
     t.index ["slug"], name: "index_vlans_on_slug", unique: true
   end
-
 end
